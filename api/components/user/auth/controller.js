@@ -1,5 +1,7 @@
 // archivo para autenticar, la primero es nombrar a la tabla
 // exportamos el archivo en forma de function
+const auth = require('../../../../auth')
+
 const table = 'auth'
 
 module.exports = function(injectedStore){
@@ -7,6 +9,17 @@ module.exports = function(injectedStore){
   let store = injectedStore
   if(!store){
     store = require('../../../../store/dummy')
+  }
+
+  async function logIn(userName, password){
+    const data = await store.query(table, {userName: userName})
+    console.log(password)
+    if(data.password === password) {
+      // generate token
+      return auth.sign(data)
+    } else{
+      throw new Error('Informacion invalida')
+    }
   }
 
   // funcion para crear usuarios, recibo data y le asigno un id
@@ -28,6 +41,7 @@ module.exports = function(injectedStore){
 
   // retorno la funcion
   return {
-    upsert
+    upsert,
+    logIn
   }
 }
