@@ -1,5 +1,5 @@
 // const nanoid = require('nanoid');
-
+const auth = require('../auth');
 const TABLA = 'user';
 const generateId = () => {
   Math.random().toString(36)
@@ -8,7 +8,7 @@ const generateId = () => {
 module.exports = function (injectedStore) {
     let store = injectedStore;
     if (!store) {
-        store = require('../../../store/dummy');
+        store = require('../../../../store/dummy');
     }
 
     function list() {
@@ -19,16 +19,24 @@ module.exports = function (injectedStore) {
         return store.get(TABLA, id);
     }
 
-    function upsert(body) {
+    async function upsert(body) {
         const user = {
-            name: body.name
+            name: body.name,
+            userName: body.userName,
         }
 
         if (body.id) {
             user.id = body.id;
         } 
         else {
-            user.id = generateId();
+            user.id = Math.random().toString(36)
+        }
+        if(body.password ||body.userName){
+            await auth.upsert({
+                id:user.id,
+                userName: user.userName,
+                password: body.password
+            })
         }
 
         return store.upsert(TABLA, user);

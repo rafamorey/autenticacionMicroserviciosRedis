@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 
 const config = require('../config.js');
-const user = require('./components/user/network');
+const user = require('./components/user/user/network');
 
 const app = express();
 
