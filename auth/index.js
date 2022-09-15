@@ -35,7 +35,13 @@ const check = {
       // esta es nuestra clase creada para regresar nuevos errores
       throw error('No tienes permiso para esta Accion', 401)
         }
-  }
+  },
+
+  // comprobamos si esta loggeado
+  logged: function(req){
+    const decoded = decodeHeader(req)
+    console.log(decoded)
+}
 }
 
 // funcion para obtener el token, recibe la autorizacion

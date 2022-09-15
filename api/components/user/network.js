@@ -9,12 +9,14 @@ const router = express.Router();
 
 // Routes
 router.get('/', list)
+router.post('/follow/id',secure('follow'), follow)
 router.get('/:id', get);
 router.post('/', upsert);
 // route para verificar si el owner puede actualizar
 router.put('/', secure('update'), upsert);
 
 // Internal functions
+// next es una funcion que viene dentro de todos los middleware de express
 function list(req, res, next) {
     // respondemos la promesa de llamar a controller.list, que a su vez llama a store.list, la cual es asyncorna
     Controller.list()
@@ -30,6 +32,7 @@ function get(req, res, next) {
         .then((user) => {
             response.success(req, res, user, 200);
         })
+            // como hemos añadido un middleware, todos los errores que creemos, ya sabemos que lo primero que va a mandar es el error, asi que en el catch en lugar de crear una funcion podemos llamar la funcion next, y asi los errores no tenemos que gestionarlos dentro de la ruta, sino que se generan automaticamente
         .catch(next);
     
 }
@@ -42,5 +45,14 @@ function upsert(req, res, next) {
         .catch(next);
     
 }
+
+function follow(req, res, next){
+    Controller.follow(req.user.id, req.params.id)
+        .then(data => {
+            response.success(req, res, data, 201)
+        })
+        .catch(next)
+}
+
 
 module.exports = router;
