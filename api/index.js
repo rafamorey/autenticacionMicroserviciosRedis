@@ -1,13 +1,17 @@
+// este es el archivo para construir el servidor
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
 const swaggerUi = require('swagger-ui-express');
 
+// archivo de configuracion para almacenar variables
 const config = require('../config.js');
 const user = require('./components/user/user/network');
 const auth = require('./components/user/auth/network')
 const errors = require('../network/errors')
 
+// inicializamos express
 const app = express();
 
 app.use(bodyParser.json());

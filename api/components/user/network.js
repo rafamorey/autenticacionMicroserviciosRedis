@@ -1,3 +1,5 @@
+// aqui vamos a tener toda la parte de red de nuestro componente user
+
 const express = require('express');
 const secure = require('./secure')
 

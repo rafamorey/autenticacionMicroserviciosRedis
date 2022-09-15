@@ -1,3 +1,5 @@
+// aqui es donde vamos a guardar todo el almacenamiento 
+
 const db = {
   'user': [
       { id: '1', name: 'Teban' },
