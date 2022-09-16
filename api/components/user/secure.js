@@ -13,7 +13,7 @@ module.exports = function checkAuth(action){
         break
 
       case 'follow':
-          auth.check.token(req)
+          auth.check.logged(req)
           next()
           break
       
